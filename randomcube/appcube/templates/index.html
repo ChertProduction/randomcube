@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Django blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
+    rel="stylesheet">
+    <!--<link href="{% static 'css/base.css' %}" rel="stylesheet">-->
+  </head>
+  <body>
+    <div>
+      {% if user.is_authenticated %}
+      <p>Hi {{ user.username }}!</p>
+      <p><a href="{% url 'logout' %}">Log out</a></p>
+      {% else %}
+        <p>You are not logged in.</p>
+        <a href="{% url 'login' %}">Log In</a>
+      {% endif %}
+    {% block content %}
+
+    {% endblock content %}
+    
+    </div>
+    <div>
+ 
+    </div>
+  </body>
+
+<script>
+    function sendJSON() {
+
+      let number = document.querySelector('#number');
+      let result = document.querySelector('.result');
+      let xhr = new XMLHttpRequest();
+      let url = "http://127.0.0.1:8000/api/example";
+      xhr.open("POST", url, true);
+     
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          result.innerHTML = this.responseText;
+        }
+        else if (xhr.status === 400){
+          result.innerHTML = "400 - Bad request";
+        }
+        else{
+          result.innerHTML = "Error";
+        }
+      };
+      var data = JSON.stringify({"input_value": number.value });
+      xhr.send(data);
+    }
+  </script>
+</html>
