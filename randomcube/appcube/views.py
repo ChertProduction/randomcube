@@ -13,6 +13,10 @@ from django.conf import settings
 from django.urls import path
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+
+from appcube.models import UserCreateForm
+from django.contrib.auth.models import User
+
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -22,13 +26,18 @@ def index(request):
         'foo': 'bar',
     })
 
+def users(request):
+    userslist = User.objects.values('id', 'username')
+    
+    return render(request, "users.html", {"userslist":  list(userslist)})
+
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
  
  
 class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
+    form_class = UserCreateForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
