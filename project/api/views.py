@@ -15,9 +15,10 @@ from api.models import UserCreateForm
 from api.serializers import RandomResponseSerializer, RandomRequestSerializer, ResultsSerializer
 from api.utils import Random
 
-from api.models import Results
 
 from django.http import HttpResponseRedirect
+
+from api.models import Results
 
 from django.template.loader import render_to_string
 
