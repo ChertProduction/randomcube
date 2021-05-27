@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  webhost:
+    image: mydocker.example.invalid/randomize
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - REDIS_HOST=redis_server
+      - REDIS_PORT=6379
+      - REDIS_DB=1
+    volumes:
+      - E:\dbdata:/api/database
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis_server
+  redis_server:
+    image: redis
+    ports:
+        - "6379:6379"
+  migration:
+    image: mydocker.example.invalid/randomize_migration
+    build:
+      context: .
+      dockerfile: Dockerfile.migration
+    volumes:
+      - E:\dbdata:/api/database

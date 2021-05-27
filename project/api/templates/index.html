@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+       JSON
+    </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body style="text-align:center;" id="body">
+    <div>
+        {% if user.is_authenticated %}
+        <p>Hi {{ user.username }}!</p>
+        <p><a href="{% url 'logout' %}">Log out</a></p>
+        <p><a href="{% url 'signup' %}">Sign up</a></p>
+        {% else %}
+          <p>You are not logged in.</p>
+          <a href="{% url 'login' %}">Log In</a>
+          <p><a href="{% url 'logout' %}">Log out</a></p>
+          <p><a href="{% url 'signup' %}">Sign up</a></p>
+        {% endif %}
+      {% block content %}
+  
+      {% endblock content %}
+      
+      </div>
+    <p> 
+        <button onclick="sendJSON()">Send</button>
+        <p class="result" style="color:blue"></p>
+    </p>
+    <p> 
+      <button onclick="sendJSON1()">My results</button>
+  </p>
+    <div>
+    <table>
+        <tr><th>Id</th><th>Number</th><th>User</th></tr>
+        {% for result in results %}
+        <tr><td>{{ result.id }}</td><td>{{ result.number }}</td><td>{{ result.name }}</td></tr>
+        {% endfor %}
+    </table>
+    </div>
+
+</body>
+
+<script>
+    function sendJSON() {
+
+      let number = 1;
+      let result = document.querySelector('.result');
+      let xhr = new XMLHttpRequest();
+      let url = "http://127.0.0.1:8000/api/example?number=" + number;
+      xhr.open("GET", url, true);
+     
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          result.innerHTML = this.responseText;
+        }
+      }
+
+      xhr.send();
+
+    }
+
+    function sendJSON1() {
+
+      let number = 2;
+      let result = document.querySelector('.result');
+      let xhr = new XMLHttpRequest();
+      let url = "http://127.0.0.1:8000/api/example?number=" + number;
+      xhr.open("GET", url, true);
+
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          result.innerHTML = this.responseText;
+        }
+      }
+
+      xhr.send();
+
+      }
+    
+  </script>
+  
+</html>
